@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const userService = require("../services/user.service");
 
 router.get("/login", (req, res) => {
   //
@@ -18,12 +19,18 @@ router.get("/register", (req, res) => {
   res.render("users/register");
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   //
   const { firstName, lastName, email, password, repeatPassword } = req.body;
   const credentials = { firstName, lastName, email, password, repeatPassword };
 
-  res.redirect("/users/login");
+  const errors = await userService.register(credentials);
+
+  if (!errors.length) {
+    res.redirect("/users/login");
+  } else {
+    res.render("users/register", { credentials, errors });
+  }
 });
 
 router.get("/profile", (req, res) => {
