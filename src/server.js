@@ -1,8 +1,11 @@
 const express = require("express");
-const { PORT } = require("./constants");
+const { PORT } = require("./lib/constants");
+const appConfig = require("./config/app.config");
 
-function main() {
+const main = () => {
   const app = express();
+
+  appConfig(app);
 
   app.get("/", (req, res) => {
     res.send("OK!");
@@ -15,6 +18,6 @@ function main() {
       console.log(`Server is listening on port ${PORT} ...`);
     }
   });
-}
+};
 
 module.exports = main;
