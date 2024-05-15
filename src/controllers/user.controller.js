@@ -7,6 +7,10 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
   //
+  const { email, password } = req.body;
+  const credentials = { email, password };
+
+  res.redirect("/");
 });
 
 router.get("/register", (req, res) => {
@@ -16,6 +20,10 @@ router.get("/register", (req, res) => {
 
 router.post("/register", (req, res) => {
   //
+  const { firstName, lastName, email, password, repeatPassword } = req.body;
+  const credentials = { firstName, lastName, email, password, repeatPassword };
+
+  res.redirect("/users/login");
 });
 
 router.get("/profile", (req, res) => {
