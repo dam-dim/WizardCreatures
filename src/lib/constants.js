@@ -1,6 +1,8 @@
 const constants = {
   PORT: 3000,
-  URL: "mongodb://localhost:27017/Wizard-Creatures-Wiki",
+  CONN_STR: "mongodb://localhost:27017/Wizard-Creatures-Wiki",
+  DB_PORT: "27017",
+  DB_NAME: "Wizard-Creatures-Wiki",
 };
 
 module.exports = constants;

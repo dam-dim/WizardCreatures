@@ -1,8 +1,8 @@
-const { URL } = require("../lib/constants");
+const { CONN_STR } = require("../lib/constants");
 const mongoose = require("mongoose");
 
 async function dbConnect() {
-  await mongoose.connect(URL);
+  await mongoose.connect(CONN_STR);
 }
 
 module.exports = dbConnect;
