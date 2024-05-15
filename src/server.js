@@ -7,10 +7,6 @@ const main = () => {
 
   appConfig(app);
 
-  app.get("/", (req, res) => {
-    res.send("OK!");
-  });
-
   app.listen(PORT, (err) => {
     if (err) {
       console.log(err.message);

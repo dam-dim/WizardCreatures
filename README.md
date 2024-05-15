@@ -1,12 +1,12 @@
 # Instructions
 
--> Welcome to (my_app).
+Welcome to Wizard Creatures.
 
--> Thank You for dedicating some of Your precious time to take a look at my humble application.
+Thank You for dedicating some of Your precious time to take a look at my humble application.
 
--> All kind of feedback is welcome.
+All kind of feedback is welcome.
 
--> Please follow the instructions for firing up the application.
+Please follow the instructions for firing up the application.
 
 ## Before starting
 
@@ -26,6 +26,14 @@ Start the application by typing the following command in the terminal in the roo
 
 ```bash
 npm start
+```
+
+## Browser
+
+Open the following link in Your favourite browser to start using the application:
+
+```bash
+http://localhost:3000/
 ```
 
 ## Thank You
