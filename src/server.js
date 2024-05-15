@@ -6,14 +6,6 @@ const main = () => {
   const app = express();
 
   appConfig(app);
-
-  app.listen(PORT, (err) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      console.log(`Server is listening on port ${PORT} ...`);
-    }
-  });
 };
 
 module.exports = main;
