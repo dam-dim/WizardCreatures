@@ -4,6 +4,7 @@ const routes = require("../routes/router");
 const handlebars = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const { auth } = require("../middlewares/authentication.middleware");
+const { reqLogger } = require("../middlewares/logger.middleware");
 
 module.exports = (app) => {
   // Setup path for static files
@@ -14,6 +15,18 @@ module.exports = (app) => {
 
   // Setup the cookie parser
   app.use(cookieParser());
+
+  // Setup the stream logger (slow)
+  // app.use(reqLogger);
+
+  // Setup logger (fast)
+  // app.use((req, res, next) => {
+  //   const newData = `Method: '${req.method}', Path: '${
+  //     req.path
+  //   }', '${new Date()}'`;
+  //   console.log(newData);
+  //   next();
+  // });
 
   // Setup the routes
   app.use(routes);

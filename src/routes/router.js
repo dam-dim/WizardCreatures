@@ -3,7 +3,7 @@ const homeController = require("../controllers/home.controller");
 const userController = require("../controllers/user.controller");
 const postController = require("../controllers/post.controller");
 
-router.use(homeController);
+router.use("/", homeController);
 router.use("/users", userController);
 router.use("/posts", postController);
 
