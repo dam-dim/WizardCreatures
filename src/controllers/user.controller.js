@@ -1,17 +1,29 @@
 const router = require("express").Router();
 const userService = require("../services/user.service");
+const {
+  forLoggedIn,
+  forLoggedOut,
+} = require("../middlewares/authentication.middleware");
 
 router.get("/login", (req, res) => {
   //
   res.render("users/login");
 });
 
-router.post("/login", (req, res) => {
-  //
-  const { email, password } = req.body;
-  const credentials = { email, password };
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const credentials = { email, password };
 
-  res.redirect("/");
+    const token = await userService.login(credentials);
+
+    res.cookie("token", token, { httpOnly: false });
+
+    res.redirect("/");
+  } catch (error) {
+    const errors = [error.message];
+    res.render("users/login", { errors });
+  }
 });
 
 router.get("/register", (req, res) => {
@@ -31,6 +43,11 @@ router.post("/register", async (req, res) => {
   } else {
     res.render("users/register", { credentials, errors });
   }
+});
+
+router.get("/logout", forLoggedIn, (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
 });
 
 router.get("/profile", (req, res) => {

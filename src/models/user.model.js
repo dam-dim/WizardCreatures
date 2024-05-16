@@ -21,9 +21,13 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Please enter a Password!"],
-    match: [],
   },
 });
+
+// userSchema.path("email").validate(function (email) {
+//   const emailFromDB = mongoose.model("User").findOne({ email });
+//   return !!emailFromDB;
+// }, "Email already exists");
 
 userSchema.virtual("repeatPassword").set(function validate(value) {
   if (value !== this.password) {
@@ -35,6 +39,14 @@ userSchema.pre("save", async function () {
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
 });
+
+// userSchema.post("save", function (error, doc, next) {
+//   if (error.name === "MongoServerError" && error.code === 11000) {
+//     next(new Error("Email already exists!"));
+//   } else {
+//     next(error);
+//   }
+// });
 
 const User = model("User", userSchema);
 
