@@ -5,12 +5,12 @@ const {
   forLoggedOut,
 } = require("../middlewares/authentication.middleware");
 
-router.get("/login", (req, res) => {
+router.get("/login", forLoggedOut, (req, res) => {
   //
   res.render("users/login");
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", forLoggedOut, async (req, res) => {
   try {
     const { email, password } = req.body;
     const credentials = { email, password };
@@ -26,12 +26,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/register", (req, res) => {
+router.get("/register", forLoggedOut, (req, res) => {
   //
   res.render("users/register");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", forLoggedOut, async (req, res) => {
   //
   const { firstName, lastName, email, password, repeatPassword } = req.body;
   const credentials = { firstName, lastName, email, password, repeatPassword };
@@ -45,12 +45,12 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", forLoggedIn, (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
 });
 
-router.get("/profile", (req, res) => {
+router.get("/profile", forLoggedIn, (req, res) => {
   //
   res.render("users/my-posts");
 });
