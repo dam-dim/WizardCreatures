@@ -16,23 +16,23 @@ module.exports = (app) => {
   // Setup the cookie parser
   app.use(cookieParser());
 
-  // Setup the stream logger (slow)
-  // app.use(reqLogger);
+  // Setup auth middleware
+  app.use(auth);
 
   // Setup logger (fast)
-  // app.use((req, res, next) => {
-  //   const newData = `Method: '${req.method}', Path: '${
-  //     req.path
-  //   }', '${new Date()}'`;
-  //   console.log(newData);
-  //   next();
-  // });
+  app.use((req, res, next) => {
+    const newData = `Method: '${req.method}', Path: '${
+      req.path
+    }', '${new Date()}'`;
+    console.log(newData);
+    next();
+  });
 
   // Setup the routes
   app.use(routes);
 
-  // Setup auth middleware
-  app.use(auth);
+  // Setup the stream logger (slow)
+  // app.use(reqLogger);
 
   // Setup the handlebars view engine
   app.engine("hbs", handlebars.engine({ extname: "hbs" }));

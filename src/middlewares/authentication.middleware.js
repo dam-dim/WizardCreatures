@@ -2,10 +2,9 @@ const { SECRET } = require("../lib/constants");
 const jwt = require("../lib/jwt");
 
 // Writes the user in res.locals (if there is any)
+// resets every 5 minutes -> go to user.post login to change
 exports.auth = async (req, res, next) => {
-  const token = req.cookies["token"];
-
-  console.log(token);
+  const token = req.cookies.token;
 
   if (token) {
     try {
@@ -21,9 +20,9 @@ exports.auth = async (req, res, next) => {
       res.clearCookie("token");
       res.redirect("/users/login");
     }
+  } else {
+    next();
   }
-
-  next();
 };
 
 // Prevention of going to endpoints not accessible if logged in (login, register)

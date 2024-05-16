@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/logout", forLoggedIn, (req, res) => {
+router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
 });
