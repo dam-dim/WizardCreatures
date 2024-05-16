@@ -16,16 +16,18 @@ router.post("/create", forLoggedIn, (req, res) => {
   //
 });
 
-router.get("/edit", forLoggedIn, (req, res) => {
+router.get("/edit/cubeId", forLoggedIn, (req, res) => {
+  //
+  res.render("posts/edit");
+});
+
+router.post("/edit/cubeId", forLoggedIn, (req, res) => {
   //
 });
 
-router.post("/edit", forLoggedIn, (req, res) => {
+router.get("/details/cubeId", (req, res) => {
   //
-});
-
-router.get("/details", (req, res) => {
-  //
+  res.render("posts/details");
 });
 
 module.exports = router;
