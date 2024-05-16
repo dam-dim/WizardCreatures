@@ -5,12 +5,10 @@ const {
 } = require("../middlewares/authentication.middleware");
 
 router.get("/", (req, res) => {
-  //
   res.render("posts/all-posts");
 });
 
 router.get("/create", forLoggedIn, (req, res) => {
-  //
   res.render("posts/create");
 });
 

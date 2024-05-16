@@ -21,10 +21,20 @@ module.exports = (app) => {
 
   // Setup logger (fast)
   app.use((req, res, next) => {
-    const newData = `Method: '${req.method}', Path: '${
+    const newData = ` --- Method: '${req.method}' --- Path: '${
       req.path
-    }', '${new Date()}'`;
+    }' --- Date: '${new Date()}' --- `;
     console.log(newData);
+
+    // const newData = [
+    //   {
+    //     Method: req.method,
+    //     Path: req.path,
+    //     Date: new Date().toString(),
+    //   },
+    // ];
+    // console.table(newData);
+
     next();
   });
 
