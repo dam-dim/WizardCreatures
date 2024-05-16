@@ -22,7 +22,7 @@ router.post("/login", forLoggedOut, async (req, res) => {
     res.redirect("/");
   } catch (error) {
     const errors = [error.message];
-    res.render("users/login", { errors });
+    res.render("users/login", { email: req.body.email, errors });
   }
 });
 
