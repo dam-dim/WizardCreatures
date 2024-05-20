@@ -35,6 +35,10 @@ userSchema.virtual("repeatPassword").set(function validate(value) {
   }
 });
 
+userSchema.virtual("fullName").get(function () {
+  return this.firstName + " " + this.lastName;
+});
+
 userSchema.pre("save", async function () {
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;

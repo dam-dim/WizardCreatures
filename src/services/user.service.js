@@ -50,3 +50,7 @@ exports.login = async (credentials) => {
 
   return token;
 };
+
+exports.findById = (userId) => {
+  return User.findById(userId);
+};

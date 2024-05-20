@@ -18,3 +18,7 @@ exports.create = async (payload) => {
 exports.getAll = () => {
   return Creature.find();
 };
+
+exports.findById = (postId) => {
+  return Creature.findById(postId);
+};
