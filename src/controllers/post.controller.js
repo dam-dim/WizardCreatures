@@ -71,8 +71,14 @@ router.get("/details/:postId", async (req, res) => {
   res.render("posts/details", { post, owner: owner.fullName, isOwner });
 });
 
-router.get("/posts/delete/:postId", [forLoggedIn, isOwner], (req, res) => {
-  // delete functionality
+router.get("/delete/:postId", [forLoggedIn, isOwner], async (req, res) => {
+  try {
+    await creatureService.delete(req.params.postId);
+    res.redirect("/posts");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/404");
+  }
 });
 
 module.exports = router;

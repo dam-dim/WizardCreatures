@@ -42,3 +42,7 @@ exports.update = async (postId, payload) => {
 
   return errors;
 };
+
+exports.delete = (postId) => {
+  return Creature.findByIdAndDelete(postId);
+};
