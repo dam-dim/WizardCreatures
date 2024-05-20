@@ -7,7 +7,7 @@
           Injure."</h2>
       </div>
 
-      <form action="#" method="" class="createForm">
+      <form method="post" class="createForm">
         <h2>Create Post</h2>
         <ul class="noBullet">
           <li>
@@ -17,8 +17,8 @@
               class="inputFields"
               id="name"
               placeholder="Delphini"
-              name=""
-              value=""
+              name="name"
+              value="{{payload.name}}"
             />
           </li>
           <li>
@@ -28,8 +28,8 @@
               class="inputFields"
               id="species"
               placeholder="Human"
-              name=""
-              value=""
+              name="species"
+              value="{{payload.species}}"
             />
           </li>
           <li>
@@ -39,8 +39,8 @@
               class="inputFields"
               id="skin"
               placeholder="Black"
-              name=""
-              value=""
+              name="skinColor"
+              value="{{payload.skinColor}}"
             />
           </li>
           <li>
@@ -50,8 +50,8 @@
               class="inputFields"
               id="eye"
               placeholder="Black"
-              name=""
-              value=""
+              name="eyeColor"
+              value="{{payload.eyeColor}}"
             />
           </li>
           <li>
@@ -61,8 +61,8 @@
               class="inputFields"
               id="image"
               placeholder="http:/..."
-              name=""
-              value=""
+              name="image"
+              value="{{payload.image}}"
             />
           </li>
           <li>
@@ -70,9 +70,9 @@
             <textarea
               id="description"
               class="inputFields"
-              name=""
+              name="description"
               placeholder="Creature..."
-            ></textarea>
+            >{{payload.description}}</textarea>
           </li>
           <li id="center-btn">
             <button id="create-btn">Create</button>

@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const creatureSchema = new mongoose.Schema({
-  name: { type: String, require: true },
-  species: { type: String, require: true },
-  skinColor: { type: String, require: true },
-  eyeColor: { type: String, require: true },
-  image: { type: String, require: true },
-  description: { type: String, require: true },
+  name: { type: String, required: [true, "Name is required!"] },
+  species: { type: String, required: [true, "Species is required!"] },
+  skinColor: { type: String, required: [true, "Skin Color is required!"] },
+  eyeColor: { type: String, required: [true, "Eye Color is required!"] },
+  image: { type: String, required: [true, "Creature Image URL is required!"] },
+  description: { type: String, required: [true, "Description is required!"] },
   votes: [
     {
       type: mongoose.Types.ObjectId,
@@ -16,7 +16,7 @@ const creatureSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-    require: true,
+    required: [true, "Owner is required!"],
   },
 });
 
