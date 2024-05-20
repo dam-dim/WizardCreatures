@@ -7,8 +7,17 @@ const creatureSchema = new mongoose.Schema({
   eyeColor: { type: String, require: true },
   image: { type: String, require: true },
   description: { type: String, require: true },
-  votes: { type: String, require: true },
-  owner: { type: String, require: true },
+  votes: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  owner: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 const Creature = mongoose.model("Creature", creatureSchema);
