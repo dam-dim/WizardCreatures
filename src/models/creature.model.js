@@ -20,6 +20,10 @@ const creatureSchema = new mongoose.Schema({
   },
 });
 
+creatureSchema.methods.isOwner = function (userId) {
+  return this.owner.toString() === userId;
+};
+
 const Creature = mongoose.model("Creature", creatureSchema);
 
 module.exports = Creature;

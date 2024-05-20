@@ -1,5 +1,6 @@
 const { SECRET } = require("../lib/constants");
 const jwt = require("../lib/jwt");
+const creatureService = require("../services/creature.service");
 
 // Writes the user in res.locals (if there is any)
 // resets every 5 minutes -> go to user.post login to change
@@ -41,5 +42,17 @@ exports.forLoggedIn = (req, res, next) => {
     next();
   } else {
     res.redirect("/users/login");
+  }
+};
+
+exports.isOwner = async (req, res, next) => {
+  const { postId } = req.params;
+  const post = await creatureService.findById(postId);
+  const userId = req.user.id;
+
+  if (post.isOwner(userId)) {
+    next();
+  } else {
+    res.redirect("/posts");
   }
 };

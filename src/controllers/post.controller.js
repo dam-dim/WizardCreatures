@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   forLoggedIn,
   forLoggedOut,
+  isOwner,
 } = require("../middlewares/authentication.middleware");
 const creatureService = require("../services/creature.service");
 const userService = require("../services/user.service");
@@ -37,12 +38,12 @@ router.post("/create", forLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/edit/postId", forLoggedIn, (req, res) => {
+router.get("/edit/:postId", [forLoggedIn, isOwner], (req, res) => {
   //
   res.render("posts/edit");
 });
 
-router.post("/edit/postId", forLoggedIn, (req, res) => {
+router.post("/edit/:postId", forLoggedIn, (req, res) => {
   //
 });
 
@@ -52,7 +53,9 @@ router.get("/details/:postId", async (req, res) => {
 
   const owner = await userService.findById(post.owner._id);
 
-  res.render("posts/details", { post, owner: owner.fullName });
+  const isOwner = owner._id.toString() === req.user?.id;
+
+  res.render("posts/details", { post, owner: owner.fullName, isOwner });
 });
 
 module.exports = router;
