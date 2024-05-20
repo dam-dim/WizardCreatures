@@ -14,3 +14,7 @@ exports.create = async (payload) => {
 
   return errors;
 };
+
+exports.getAll = () => {
+  return Creature.find();
+};

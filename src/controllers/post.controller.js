@@ -5,8 +5,10 @@ const {
 } = require("../middlewares/authentication.middleware");
 const creatureService = require("../services/creature.service");
 
-router.get("/", (req, res) => {
-  res.render("posts/all-posts");
+router.get("/", async (req, res) => {
+  const allPosts = await creatureService.getAll().lean();
+  console.log(allPosts);
+  res.render("posts/all-posts", { allPosts });
 });
 
 router.get("/create", forLoggedIn, (req, res) => {
@@ -35,16 +37,16 @@ router.post("/create", forLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/edit/cubeId", forLoggedIn, (req, res) => {
+router.get("/edit/postId", forLoggedIn, (req, res) => {
   //
   res.render("posts/edit");
 });
 
-router.post("/edit/cubeId", forLoggedIn, (req, res) => {
+router.post("/edit/postId", forLoggedIn, (req, res) => {
   //
 });
 
-router.get("/details/cubeId", (req, res) => {
+router.get("/details/postId", (req, res) => {
   //
   res.render("posts/details");
 });
