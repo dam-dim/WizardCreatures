@@ -44,7 +44,12 @@ exports.login = async (credentials) => {
     throw new Error("Invalid email or password!");
   }
 
-  const payload = { id: user._id, email: user.email };
+  const payload = {
+    id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  };
 
   const token = await jwt.sign(payload, SECRET, { expiresIn: "3d" });
 

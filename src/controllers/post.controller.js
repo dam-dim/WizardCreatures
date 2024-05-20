@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const {
   forLoggedIn,
-  forLoggedOut,
-  isOwner,
+  forOwner,
+  forNotOwner,
 } = require("../middlewares/authentication.middleware");
 const creatureService = require("../services/creature.service");
 const userService = require("../services/user.service");
+const { getVotesFormatted } = require("../utils/array.utils");
 
 router.get("/", async (req, res) => {
   const allPosts = await creatureService.getAll().lean();
@@ -38,12 +39,12 @@ router.post("/create", forLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/edit/:postId", [forLoggedIn, isOwner], async (req, res) => {
+router.get("/edit/:postId", [forLoggedIn, forOwner], async (req, res) => {
   const post = await creatureService.findById(req.params.postId).lean();
   res.render("posts/edit", { post });
 });
 
-router.post("/edit/:postId", [forLoggedIn, isOwner], async (req, res) => {
+router.post("/edit/:postId", [forLoggedIn, forOwner], async (req, res) => {
   const postId = req.params.postId;
 
   const post = await creatureService.findById(postId).lean();
@@ -62,22 +63,48 @@ router.post("/edit/:postId", [forLoggedIn, isOwner], async (req, res) => {
 
 router.get("/details/:postId", async (req, res) => {
   const postId = req.params.postId;
-  const post = await creatureService.findById(postId).lean();
+  const userId = req.user.id;
+  const postLean = await creatureService
+    .findById(postId)
+    .populate("votes")
+    .lean();
+  const post = await creatureService.findById(postId);
 
-  const owner = await userService.findById(post.owner._id);
+  const owner = await userService.findById(postLean.owner._id);
 
   const isOwner = owner._id.toString() === req.user?.id;
 
-  res.render("posts/details", { post, owner: owner.fullName, isOwner });
+  res.render("posts/details", {
+    post: postLean,
+    owner: owner.fullName,
+    isOwner,
+    votes: getVotesFormatted(postLean.votes),
+    voted: post.hasVoted(userId),
+  });
 });
 
-router.get("/delete/:postId", [forLoggedIn, isOwner], async (req, res) => {
+router.get("/delete/:postId", [forLoggedIn, forOwner], async (req, res) => {
   try {
     await creatureService.delete(req.params.postId);
     res.redirect("/posts");
   } catch (error) {
     console.log(error);
     res.redirect("/404");
+  }
+});
+
+router.get("/vote/:postId", [forLoggedIn, forNotOwner], async (req, res) => {
+  const { postId } = req.params;
+  const post = await creatureService.findById(postId);
+  const leanPost = await creatureService.findById(postId).lean();
+  const userId = req.user.id;
+
+  try {
+    post.vote(userId);
+    res.redirect(`/posts/details/${postId}`);
+  } catch (error) {
+    console.log(error.message);
+    res.redirect(`/posts/details/${postId}`);
   }
 });
 

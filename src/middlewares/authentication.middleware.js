@@ -45,12 +45,24 @@ exports.forLoggedIn = (req, res, next) => {
   }
 };
 
-exports.isOwner = async (req, res, next) => {
+exports.forOwner = async (req, res, next) => {
   const { postId } = req.params;
   const post = await creatureService.findById(postId);
   const userId = req.user.id;
 
   if (post.isOwner(userId)) {
+    next();
+  } else {
+    res.redirect("/posts");
+  }
+};
+
+exports.forNotOwner = async (req, res, next) => {
+  const { postId } = req.params;
+  const post = await creatureService.findById(postId);
+  const userId = req.user.id;
+
+  if (!post.isOwner(userId)) {
     next();
   } else {
     res.redirect("/posts");

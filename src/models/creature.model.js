@@ -24,6 +24,25 @@ creatureSchema.methods.isOwner = function (userId) {
   return this.owner.toString() === userId;
 };
 
+creatureSchema.methods.getVotesFormatted = function () {
+  const votes = this.votes;
+
+  return votes.join(", ");
+};
+
+creatureSchema.methods.vote = function (userId) {
+  if (this.votes.includes(userId)) {
+    throw new Error("You have already voted for this post!");
+  } else {
+    this.votes.push(userId);
+    this.save();
+  }
+};
+
+creatureSchema.methods.hasVoted = function (userId) {
+  return this.votes.includes(userId);
+};
+
 const Creature = mongoose.model("Creature", creatureSchema);
 
 module.exports = Creature;

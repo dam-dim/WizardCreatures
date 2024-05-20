@@ -29,6 +29,7 @@
         <img src="../../static/img/logo.png" alt="logo" />
 
         <ul class="menu">
+
           <li><a href="/">Home</a></li>
           <li><a href="/posts">All Posts</a></li>
           {{#if isAuthenticated}}
@@ -40,6 +41,14 @@
             <!-- Guest users -->
             <li><a href="/users/register">Register</a></li>
             <li><a href="/users/login">Login</a></li>
+          {{/if}}
+
+          {{#if isAuthenticated}}
+            <li
+              style="background-color: rgb(255, 255, 255); padding: 10px; border-radius: 5px; opacity: 50%;"
+            >Welcome,
+              {{user.firstName}}
+              {{user.lastName}}</li>
           {{/if}}
         </ul>
       </nav>
