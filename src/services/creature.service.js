@@ -2,7 +2,6 @@ const Creature = require("../models/creature.model");
 
 exports.create = async (payload) => {
   const errors = [];
-  console.log(payload);
 
   try {
     await Creature.create(payload);
@@ -21,4 +20,25 @@ exports.getAll = () => {
 
 exports.findById = (postId) => {
   return Creature.findById(postId);
+};
+
+exports.update = async (postId, payload) => {
+  //
+  const errors = [];
+
+  try {
+    const post = await Creature.findById(postId);
+
+    for (const key in payload) {
+      post[key] = payload[key];
+    }
+
+    await post.save();
+  } catch (error) {
+    for (const key in error.errors) {
+      errors.push(error.errors[key].message);
+    }
+  }
+
+  return errors;
 };

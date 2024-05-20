@@ -38,13 +38,26 @@ router.post("/create", forLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/edit/:postId", [forLoggedIn, isOwner], (req, res) => {
-  //
-  res.render("posts/edit");
+router.get("/edit/:postId", [forLoggedIn, isOwner], async (req, res) => {
+  const post = await creatureService.findById(req.params.postId).lean();
+  res.render("posts/edit", { post });
 });
 
-router.post("/edit/:postId", forLoggedIn, (req, res) => {
-  //
+router.post("/edit/:postId", [forLoggedIn, isOwner], async (req, res) => {
+  const postId = req.params.postId;
+
+  const post = await creatureService.findById(postId).lean();
+
+  const { name, species, skinColor, eyeColor, image, description } = req.body;
+  const payload = { name, species, skinColor, eyeColor, image, description };
+
+  const errors = await creatureService.update(postId, payload);
+
+  if (errors.length) {
+    res.render("posts/edit", { post, errors });
+  } else {
+    res.redirect(`/posts/details/${postId}`);
+  }
 });
 
 router.get("/details/:postId", async (req, res) => {
@@ -56,6 +69,10 @@ router.get("/details/:postId", async (req, res) => {
   const isOwner = owner._id.toString() === req.user?.id;
 
   res.render("posts/details", { post, owner: owner.fullName, isOwner });
+});
+
+router.get("/posts/delete/:postId", [forLoggedIn, isOwner], (req, res) => {
+  // delete functionality
 });
 
 module.exports = router;
